@@ -11,22 +11,24 @@ public class Product
     private Product() {}
     private Product(string name, decimal price, int stock, string? description)
     {
-        if (!string.IsNullOrWhiteSpace(name) || name.Length < 256)
-            Name = name;
-
-        if (price > 0)
-            Price = price;
-
-        if (stock >= 0)
-            Stock = stock;
-        if (description is not null)
-            Description = description;
+        Name = name;
+        Price = price;
+        Stock = stock;
+        Description = description;
     }
 
-    public static Result<Product> Create(string name, decimal price, int stock, string? description)
+    public static Result<Product> Create(string name, decimal price, int stock, string? description = default)
     {
-        var result = new Product(name, price, stock, description);
-        return Result<Product>.Success(result);
+        if (string.IsNullOrWhiteSpace(name) || name.Length > 255)
+            return Result<Product>.Fail("Name can't be null, empty or exceed 255 characters.");
+
+        if (price <= 0)
+            return Result<Product>.Fail("Price must be higher than 0.");
+
+        if (stock < 0)
+            return Result<Product>.Fail("Stock can't be negative.");
+
+        return Result<Product>.Success(new Product(name, price, stock, description));
     }
 
     public Result<Product> ChangeName(string name)
@@ -83,6 +85,12 @@ public class Product
             return Result<Product>.Fail("Description can't be null or empty.");
 
         Description = description;
+        return Result<Product>.Success(this);
+    }
+
+    public Result<Product> DeleteDescription()
+    {
+        Description = null;
         return Result<Product>.Success(this);
     }
 }
