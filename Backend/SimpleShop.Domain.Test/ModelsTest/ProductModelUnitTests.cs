@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 
 namespace SimpleShop.Domain.Test;
 
-public class ProdutcModelUnitTests(ITestOutputHelper output)
+public class ProdutcModelUnitTests()
 {
     [Fact]
     public void CreateProduct_Returns_CorrectData()
