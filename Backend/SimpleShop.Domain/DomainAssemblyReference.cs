@@ -1,6 +1,6 @@
 ﻿namespace SimpleShop.Domain;
 
-public class Class1
+public class DomainAssemblyReference
 {
 
 }

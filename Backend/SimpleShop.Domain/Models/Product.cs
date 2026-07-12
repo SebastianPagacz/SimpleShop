@@ -7,6 +7,7 @@ public class Product
     public decimal Price { get; private set; }
     public int Stock { get; private set; }
     public string? Description { get; private set; }
+    public List<Category> Categories { get; } = [];
 
     private Product() {}
     private Product(string name, decimal price, int stock, string? description)

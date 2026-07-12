@@ -67,4 +67,58 @@ public class ProdutcModelUnitTests()
 
         Assert.False(result.IsSuccessful);
     }
+
+    #region Category
+    [Fact]
+    public void CreateCategory_Returns_CorrectValue()
+    {
+        var cat = Category.Create("Test");
+
+        Assert.True(cat.IsSuccessful);
+    }
+
+    [Theory]
+    [InlineData(" ")]
+    [InlineData("")]
+    public void CreateCategoryFail_Returns_CorrectValue(string name)
+    {
+        var cat = Category.Create(name);
+
+        Assert.True(cat.IsFailed);
+    }
+
+    [Theory]
+    [InlineData("Tescik")]
+    [InlineData("EloZelo12")]
+    public void CategoryChangeName_Returns_CorrectValue(string name)
+    {
+        var cat = Category.Create("Name");
+
+        var res = cat.Value.ChangeName(name);
+
+        Assert.True(res.IsSuccessful);
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData(" ")]
+    public void CategoryChangeNameFail_Returns_CorrectValue(string name)
+    {
+        var cat = Category.Create("Name");
+
+        var res = cat.Value.ChangeName(name);
+
+        Assert.Equal("Name can't be null or whitespace.", res.Message);
+    }
+
+    [Fact]
+    public void CategoryChangeName_SameValue_Returns_CorrectValue()
+    {
+        var cat = Category.Create("Name");
+
+        var res = cat.Value.ChangeName("Name");
+
+        Assert.Equal("Name can't be the same", res.Message);
+    }
+    #endregion
 }
