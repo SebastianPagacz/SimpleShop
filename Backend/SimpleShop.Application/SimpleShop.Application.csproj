@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Entities/Products/" />
+    <Folder Include="Entities/Products/Queries/" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,7 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="../SimpleShop.Domain/SimpleShop.Domain.csproj" />
-    <ProjectReference Include="../SimpleShop.Infrastructure/SimpleShop.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

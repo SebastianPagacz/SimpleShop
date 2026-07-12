@@ -6,6 +6,9 @@ public class Category
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
+    public bool IsDeleted { get; set; } = false;
+    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow; 
     public List<Product> Products { get; } = [];
     
     private Category() { }
@@ -32,5 +35,10 @@ public class Category
 
         Name = name;
         return Result<Category>.Success(this);
+    }
+
+    private void Update()
+    {
+        UpdatedAt = DateTime.UtcNow;
     }
 }

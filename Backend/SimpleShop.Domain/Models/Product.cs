@@ -7,6 +7,9 @@ public class Product
     public decimal Price { get; private set; }
     public int Stock { get; private set; }
     public string? Description { get; private set; }
+    public bool IsDeleted { get; set; } = false;
+    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
+    public DateTime UpdatedAt { get; set; } = DateTime.UtcNow; // In this context creation = update as well
     public List<Category> Categories { get; } = [];
 
     private Product() {}
@@ -38,6 +41,7 @@ public class Product
             return Result<Product>.Fail("Name can't be null, empty or exceed 255 characters.");
 
         Name = name;
+        Update();
         return Result<Product>.Success(this);
     }
 
@@ -47,6 +51,7 @@ public class Product
             return Result<Product>.Fail("Price must be higher than 0.");
 
         Price = price;
+        Update();
         return Result<Product>.Success(this);
     }
 
@@ -56,6 +61,7 @@ public class Product
             return Result<Product>.Fail("Can't increase stock be 0 or lower value.");
             
         Stock += value;
+        Update();
         return Result<Product>.Success(this);
     }
 
@@ -68,6 +74,7 @@ public class Product
             return Result<Product>.Fail("Not enough in stock.");
 
         Stock -= value;
+        Update();
         return Result<Product>.Success(this);
     }
 
@@ -77,6 +84,7 @@ public class Product
             return Result<Product>.Fail("Stock can't be negative.");
 
         Stock = stock;
+        Update();
         return Result<Product>.Success(this);
     }
 
@@ -86,12 +94,29 @@ public class Product
             return Result<Product>.Fail("Description can't be null or empty.");
 
         Description = description;
+        Update();
         return Result<Product>.Success(this);
     }
 
     public Result<Product> DeleteDescription()
     {
         Description = null;
+        Update();
         return Result<Product>.Success(this);
+    }
+
+    public bool Delete() // I need to think this method out, what exactly it should return
+    {
+        if (IsDeleted)
+            return false;
+
+        IsDeleted = true;
+        Update();
+        return true;
+    }
+
+    private void Update()
+    {
+        UpdatedAt = DateTime.UtcNow;
     }
 }
